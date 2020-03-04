@@ -50,6 +50,10 @@ The VIs can be translated into yield predictions using several different methods
 
 15. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
+# plot_rainfall.py 
+
+This script calculates average rainfall (in mm/hr) and the standard deviation of rainfall (across three hour increments) between start and end dates specified by the user. The rainfall data comes from NASA's Global Participation Measurement (GPM) v6 mission. The rainfall estimates are derived from a series of sources, including satellite data and rainfall gauges. This script only uses data from the final run which is suitable for analysis. 
+
 # References 
 
 Shawn Cole and Grady Killeen. The promise of satellite yield measurements: Evidence from a randomized controlled trial in Gujarat. Working paper, 2020. 

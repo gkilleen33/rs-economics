@@ -36,17 +36,17 @@ output_file = 'EXAMPLE_FILE_NAME' # Output file name
 ##############################################################
 
 if reducer == 'median':
-	ee_reducer = ee.Reducer.median()
+    ee_reducer = ee.Reducer.median()
 elif reducer == 'mean':
-	ee_reducer = ee.Reducer.mean()
+    ee_reducer = ee.Reducer.mean()
 elif reducer == 'min':
-	ee_reducer = ee.Reducer.min()
+    ee_reducer = ee.Reducer.min()
 elif reducer == 'max':
-	ee_reducer = ee.Reducer.max()
+    ee_reducer = ee.Reducer.max()
 elif reducer == 'sd':
-	ee_reducer = ee.Reducer.srdDev()
+    ee_reducer = ee.Reducer.srdDev()
 else:
-	raise Exception('Please select a valid reduction method.')
+    raise Exception('Please select a valid reduction method.')
 
 
 l2a = ee.ImageCollection("COPERNICUS/S2_SR")
@@ -175,7 +175,7 @@ def add_vis_20m(image):
     VIs = VIs.addBands(image.select('B5'))
     # B8A 
     VIs = VIs.addBands(image.select('B8A'))
-	return VIs.set({'Date': image.get("Date")})
+    return VIs.set({'Date': image.get("Date")})
 
 vegetation_indices_10m = masked_final_imagery.map(add_vis_10m)
 vegetation_indices_20m = masked_final_imagery.map(add_vis_20m)
