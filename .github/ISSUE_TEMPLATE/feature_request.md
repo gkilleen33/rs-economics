@@ -3,7 +3,7 @@ name: Feature request
 about: Request scripts to accomplish new tasks or additional features in existing
   scripts
 title: ''
-labels: ''
+labels: enhancement
 assignees: gkilleen33
 
 ---
