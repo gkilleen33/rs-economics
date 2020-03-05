@@ -70,7 +70,7 @@ GPM data includes estimates of rainfall every half hour, in mm/hr units. All 48 
 
 1. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
-2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `sentinel2-vis.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_rainfall.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
 
 3. Specify the import path to the AOI asset in the `aoi` variable in `plot_rainfall.py`.
 
@@ -89,6 +89,42 @@ GPM data includes estimates of rainfall every half hour, in mm/hr units. All 48 
 10. Enter `python plot_rainfall.py`. 
 
 11. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
+
+# plot_topography.py 
+
+This script calculates the elevation, slope, and aspect (compass direction of slope) of each polygon in a shapefile. It was created for generating useful information about agricultural plots, but can be applied to other topics without modification.
+
+## Setup 
+
+Please follow the setup instructions for [sentinel2-vis.py](#sentinel2-vis.py). 
+
+## Description, inputs, and outputs 
+
+The code uses a shapefile containing one or more polygons. Using the Google Earth Engine, the average elevation (in meters), slope (in degrees), and aspect (compass direction of the slope) of each polygon are calculated. The results are saved in a CSV file on Google Drive. 
+
+The code uses Shuttle Rader Topography Mission (SRTM) elevation data with a resolution of 1 arc second (about 30 meters). More info is available at [https://developers.google.com/earth-engine/datasets/catalog/CGIAR_SRTM90_V4](https://developers.google.com/earth-engine/datasets/catalog/CGIAR_SRTM90_V4). 
+
+## Instructions 
+
+1. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
+
+2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_topography.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+
+3. Specify the import path to the AOI asset in the `aoi` variable in `plot_topography.py`.
+
+4. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+
+5. Insert the folder name from step 4 in the variable `output_folder`. 
+
+6. Insert an output file name in the variable `output_file`. Do not include an extension. 
+
+7. Open a command line terminal and set your current directory to the directory containing `plot_topography.py`.
+
+8. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+
+9. Enter `python plot_topography.py` in the command line. 
+
+10. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
 # References 
 
