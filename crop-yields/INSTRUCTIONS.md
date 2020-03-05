@@ -52,7 +52,43 @@ The VIs can be translated into yield predictions using several different methods
 
 # plot_rainfall.py 
 
-This script calculates average rainfall (in mm/hr) and the standard deviation of rainfall (across three hour increments) between start and end dates specified by the user. The rainfall data comes from NASA's Global Participation Measurement (GPM) v6 mission. The rainfall estimates are derived from a series of sources, including satellite data and rainfall gauges. This script only uses data from the final run which is suitable for analysis. 
+This script calculates average daily rainfall (in mm/hr) for each day between start and end dates specified by the user. The rainfall data comes from NASA's Global Participation Measurement (GPM) v6 mission. The rainfall estimates are derived from a series of sources, including satellite data and rainfall gauges. This script only uses data from the final run which is suitable for analysis and available after a 3.5 month lag. Half-hourly rainfall snapshots are averaged into a daily average.
+
+## Setup 
+
+Please follow the setup instructions for [sentinel2-vis.py](#sentinel2-vis.py). 
+
+## Description, inputs, and outputs 
+
+This script uses plot boundary data as an input and returns a CSV containing daily rainfall values, in mm/hour, for each plot. Rainfall data is obtained from NASA's Global Participation Measurement (GMP) using the Integrated Multi-satellitE Retrievals for GPM (IMERG) algorithm. The algorithm incorporates satellite microwave and microwave-calibrated infrared estimates of rainfall. Data from ground gauges is also incorporated. 
+
+The IMERG algorithm is run multiple times as data comes in. The final run has a lag of 3.5 months, but has the highest quality. This script currently only uses final run data to maximize accuracy, but could easily be modified to include other data sources by removing the code `.filterMetadata('status', 'equals', 'permanent')`. 
+
+GPM data includes estimates of rainfall every half hour, in mm/hr units. All 48 half-hourly values are averaged together for each day. The output variable containing the daily rainfall average is called "mean" in the produced CSV. As with `sentinel2-vis.py`, this CSV will be inserted into a Google Drive folder. 
+
+## Instructions 
+
+1. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
+
+2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `sentinel2-vis.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+
+3. Specify the import path to the AOI asset in the `aoi` variable in `plot_rainfall.py`.
+
+4. Enter the begin and end date parameters via the `begin` and `end` variables in `plot_rainfall.py`. These specify the earliest date for which rainfall data will be pulled and the end date. The end date will be excluded. 
+
+5. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+
+6. Insert the folder name from step 5 in the variable `output_folder`. 
+
+7. Insert an output file name in the variable `output_file`. Do not include an extension. 
+
+8. Open a command line terminal and set your current directory to the directory containing `plot_rainfall.py`.
+
+9. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+
+10. Enter `python plot_rainfall.py`. 
+
+11. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
 # References 
 
