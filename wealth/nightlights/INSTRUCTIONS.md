@@ -26,29 +26,31 @@ For more information, visit [https://developers.google.com/earth-engine/datasets
 
 1. Register for the Google Earth Engine, install Anaconda and Python 3, and authenticate the Google Earth Engine package following the instructions in the Setup section. 
 
-2. Import the boundary data (e.g. a shapefile or geojson) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
+- Import the boundary data (e.g. a shapefile or geojson) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
-3. Specify the import path to the plot boundary Google Earth Engine asset in the `shapefile` variable in `viirs_nightlights.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+- Specify the import path to the plot boundary Google Earth Engine asset in the `shapefile` variable in `viirs_nightlights.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
 
-4. Enter the begin and end date parameters via the `begin` and `end` variables in `viirs_nightlights.py`.
+- Enter the begin and end date parameters via the `begin` and `end` variables in `viirs_nightlights.py`.
 
-5. Specify a value for `resolution`. This must be either `global`, `national`, `regional`, or `local`. 
+- Specify a value for `resolution`. This must be either `global`, `national`, `regional`, or `local`. 
 
 	- **WARNING:** The resolution parameter controls the scale that analysis is performed at, in meters, and the `tileScale` parameter in the reduce regions. If the first value is too small and the second is too large, then the Google Earth Engine job will fail because memory usage is too high or the compute time is too long. If the values are too large, then results may be noisy or inaccurate. The parameters are currently educated guesses and likely to face issues. You may change the `scale` and `tileScale` variables yourself in the script to see how results change. Please submit a new issues on Github if you face issues because of these values or have suggestions about what they should be.
+	
+- Specify either 'mean' or 'sum' in the variable `statistic`. If 'mean' is used, the average luminosity level within each polygon is calculated. If 'sum' is used, then the sum of nighlights values within each polygon is returned. 
 
-6. Specify a value for `min_passes` in `viirs_nightlights.py`. This specifies the minumum number of cloud free data points that must have gone into creating a pixel for it to be kept. It must be at least 1. A higher value ensures higher data quality but may lead to lower coverage. 
+- Specify a value for `min_passes` in `viirs_nightlights.py`. This specifies the minumum number of cloud free data points that must have gone into creating a pixel for it to be kept. It must be at least 1. A higher value ensures higher data quality but may lead to lower coverage. 
 
-7. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+- Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
 
-8. Insert the folder name from step 9 in the variable `output_folder`. 
+- Insert the folder name from step 9 in the variable `output_folder`. 
 
-9. Insert an output file name in the variable `output_file`. Do not include an extension. 
+- Insert an output file name in the variable `output_file`. Do not include an extension. 
 
-10. Open a command line terminal and set your current directory to the directory containing `viirs_nightlights.py`.
+- Open a command line terminal and set your current directory to the directory containing `viirs_nightlights.py`.
 
-13. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+- Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
 
-14. Enter `python viirs_nightlights.py`. 
+- Enter `python viirs_nightlights.py`. 
 
-15. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
+- The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
