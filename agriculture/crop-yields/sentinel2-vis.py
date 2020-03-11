@@ -44,7 +44,7 @@ elif reducer == 'min':
 elif reducer == 'max':
     ee_reducer = ee.Reducer.max()
 elif reducer == 'sd':
-    ee_reducer = ee.Reducer.srdDev()
+    ee_reducer = ee.Reducer.stdDev()
 else:
     raise Exception('Please select a valid reduction method.')
 
@@ -98,7 +98,7 @@ def create_mosaics(date, newlist):
 
 daily_mosaics = ee.ImageCollection(ee.List(list_of_days.iterate(create_mosaics, ee.List([]))))
 
-# Only keep days where area coverage is at least 80%
+# Only keep days where area coverage is at least min_aoi_coverage
 if aoi.size().getInfo() == 1:
     aoi_footprint = aoi.first().geometry()
 else:
