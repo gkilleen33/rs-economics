@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import ee 
+import math 
 
 ee.Initialize()
 
@@ -83,14 +84,59 @@ def create_mosaics(date, newlist):
     date = ee.Date(date)
     newlist = ee.List(newlist)
 
+    if 'NO2' in pollution_types:  # First since multiple bands
+        filtered_day_no2 = NO2.filterDate(date, date.advance(1,'day'))
+        image = ee.Image(filtered_day_no2.mosaic()).set({'Date': date})
+        
+    if 'UV' in pollution_types:
+        filtered_day_uv = UV.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_uv.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
+    if 'CO' in pollution_types:
+        filtered_day_co = CO.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_co.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
+    if 'CH2O' in pollution_types:
+        filtered_day_ch2o = CH2O.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_ch2o.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
+    if 'O3' in pollution_types:
+        filtered_day_o3 = O3.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_o3.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
+    if 'SO2' in pollution_types:
+        filtered_day_so2 = SO2.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_so2.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
+    if 'CH4' in pollution_types:
+        filtered_day_ch4 = NO2.filterDate(date, date.advance(1,'day'))
+        band = ee.Image(filtered_day_ch4.mosaic())
+        if 'image' in locals():
+            image = image.addBands(band)
+        else:
+            image = band
+            
     filtered_day = globals()[pollution_types[0]].filterDate(date, date.advance(1,'day'))
-    image = ee.Image(filtered_day.mosaic()).set({'Date': date})
-    
-    if len(pollution_types) > 1:
-        for x in pollution_types[1:]:
-            filtered_band = globals()[x].filterDate(date, date.advance(1,'day'))
-            band = ee.Image(filtered_band.mosaic())
-            image.addBands(band.rename(x))
     
     # Add the mosaic to a list only if the collection has images
     return ee.List(ee.Algorithms.If(filtered_day.size(), newlist.add(image), newlist))
@@ -102,12 +148,12 @@ def addArea(feature):
     return feature.set({'area': feature.geometry().area()})  
 polygons_with_area = polygons.map(addArea)
 
-min_polygon_area = polygons_with_area.reduceColumns(reducer=ee.Reducer.min(), selectors=['area'])
+min_polygon_area = polygons_with_area.reduceColumns(reducer=ee.Reducer.min(), selectors=['area']).getInfo()['min']
 
-if min_polygon_area.getInfo() < (native_scale.getInfo())^2:
-    scale = max(10, (min_polygon_area)**0.5)  # In case there are any polygons with very small area 
+if min_polygon_area < (native_scale)**2:
+    scale = max(10, math.sqrt(min_polygon_area)) # In case there are any polygons with very small area 
 else: 
-    scale = native_scale.getInfo()
+    scale = native_scale
 
 # Calculate the pollution levels by area 
 def zonalStats(image):
