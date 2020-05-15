@@ -16,7 +16,7 @@ This script takes polygons defining the boundaries of agricultural plots and a p
 
 The script calculates the Normalized Difference Vegetation Index (NDVI), Enhanced Vegetation Index (EVI), Green Chlorophyll Vegetation Index (GCVI), Red-edge NDVI (reNDVI), Simple Sentinel-2 LAI Index (SeLI), a Green LAI estimate based on SeLI (LAIgreen), and individual band values for bands 2 (blue), 4 (red), 5 (red-edge infrared 1), 8 (near-infrared) and 8A (red-edge infrared 4). NDVI, GCVI, EVI, band 2, band 4, and band 8 are calculated using 10 meter by 10 meter imagery. All other indices and bands are calculated at 20 meters by 20 meters, and bands with a 10m x 10m resolution are reprojected before the calculation. For each cloud-free date and plot, the script calculates a summary statistic of the pixel values contained in the plot (e.g. mean). The code then exports a CSV containing panel data including attribute data from the plot boundary data (e.g. a unique identifier for plots), each of the VI/band values, and the date. This CSV can immediately be imported into statistical software and used to measure yields. 
 
-The VIs can be translated into yield predictions using several different methods. For instance, Lobell et al. (2019a) regress ground-based yield on all the values of a VI observed over a season to obtain satellite yield measurements. Lobell et al. (2019b) take the maximum value observed over the season. Cole and Killeen (2020) separately predict yields using each satellite pass and then consider a panel of productivity data. Additionally, the best performing VI is likely to vary based on geography and crop. Typically, NDVI should be outperformed by other indices if satellite yields are effective, however. 
+The VIs can be translated into yield predictions using several different methods. For instance, Lobell et al. (2019a) regress ground-based yield on all the values of a VI observed over a season to obtain satellite yield measurements. Lambert et al. (2018) take the maximum VI value across the season. Additionally, the best performing VI is likely to vary based on geography and crop. Typically, NDVI should be outperformed by other indices if satellite yields are effective, however. 
 
 ## Instructions 
 
@@ -128,8 +128,9 @@ The code uses Shuttle Rader Topography Mission (SRTM) elevation data with a reso
 
 # References 
 
-Shawn Cole and Grady Killeen. The promise of satellite yield measurements: Evidence from a randomized controlled trial in Gujarat. Working paper, 2020. 
-
 David B Lobell, George Azzari, Marshall Burke, Sydney Gourlay, Zhenong Jin, Talip Kilic, and Siobhan Murray. Eyes in the Sky, Boots on the Ground: Assessing Satellite- and Ground-Based Approaches to Crop Yield Measurement and Analysis. American Journal of Agricultural Economics, 10 2019a. ISSN 0002-9092. doi: 10.1093/ajae/aaz051. URL https://academic.oup.com/ajae/advance-article/doi/10.1093/ ajae/aaz051/5607565.
 
-David B. Lobell, Stefania Di Tommaso, Calum You, Ismael Yacoubou Djima, Marshall Burke, and Talip Kilic. Sight for Sorghums: Comparisons of Satellite- and Ground-Based Sorghum Yield Estimates in Mali. Remote Sensing, 12(1):100, 12 2019b. ISSN 2072-4292. doi: 10.3390/rs12010100. URL https://www.mdpi.com/ 2072-4292/12/1/100.
+Marie-Julie Lambert, Pierre C Sibiry Traoré, Xavier Blaes, Philippe Baret, and Pierre Defourny. Estimating small-
+holder crops production at village level from Sentinel-2 time series in Mali’s cotton belt. Remote Sensing of
+Environment, 216:647 – 657, 2018. ISSN 0034-4257. doi: https://doi.org/10.1016/j.rse.2018.06.036. URL
+http://www.sciencedirect.com/science/article/pii/S0034425718303146.
