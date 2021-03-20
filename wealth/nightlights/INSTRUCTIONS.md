@@ -20,7 +20,7 @@ Although we suggest using a local installation, the Google Earth Engine also sup
 
 For more information, visit [https://developers.google.com/earth-engine/datasets/catalog/NOAA_VIIRS_DNB_MONTHLY_V1_VCMCFG](https://developers.google.com/earth-engine/datasets/catalog/NOAA_VIIRS_DNB_MONTHLY_V1_VCMCFG). 
 
-**Outputs:** The script outputs a CSV containing average luminosity values for each month in the date range anf each polygon. 
+**Outputs:** The script outputs a CSV containing average luminosity values for each month in the date range and each polygon. 
 
 ## Instructions 
 
@@ -29,6 +29,8 @@ For more information, visit [https://developers.google.com/earth-engine/datasets
 - Import the boundary data (e.g. a shapefile or geojson) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
 - Specify the import path to the plot boundary Google Earth Engine asset in the `shapefile` variable in `viirs_nightlights.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+
+__Make sure that the plot boundary data has a unique identifier in the attribute table.__ The script outputs a csv containing panel data in long format. So a unique id is necessary to determine which polygon a data point was recorded in.
 
 - Enter the begin and end date parameters via the `begin` and `end` variables in `viirs_nightlights.py`.
 

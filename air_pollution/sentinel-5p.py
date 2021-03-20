@@ -16,7 +16,9 @@ end = ee.Date() # E.g. '2019-12-15'
 
 # Pollution types. Options are 'UV' (UV aerosol index), 'CO' (carbon monoxide), 'CH2O' (formaldehyde), 'NO2' (nitrogen dioxide), 'O3' (ozone), 'SO2' (sulphur dioxide), and 'CH4' (methane)
 # All air quality metrics should be included in a list, e.g. ['UV', 'CO'] for UV and CO, or ['UV'] for just 'UV'
-pollution_types = ['UV', 'CO']
+
+# WARNING: NO2 must be kept for the script to work, or the function create_mosaics will need to be edited below
+pollution_types = ['NO2', 'UV', 'CO']
 
 # Export information (to Google Drive)
 output_folder = 'EXAMPLE_FOLDER'  # Folder name to save outputs in Google drive. The folder should be created before running the script.

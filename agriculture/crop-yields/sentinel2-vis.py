@@ -8,8 +8,6 @@ ee.Initialize()
 # ENTER USER INPUTS HERE  
 ###############################################################
 plot_boundaries = ee.FeatureCollection() # Upload plot boundary data (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-aoi = ee.FeatureCollection() # Upload AOI polygon (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-# The AOI can contain multiple polygons, but should be relatively simple. A bounding box or convex hull around all plot boundaries is appropriate
 
 # Start and end dates for image search (YYYY-MM-DD)
 begin = ee.Date() # E.g. '2019-08-01'
@@ -34,6 +32,9 @@ output_file = 'EXAMPLE_FILE_NAME' # Output file name
 ##############################################################
 # END USER INPUTS 
 ##############################################################
+
+#Construct AOI
+aoi = plot_boundaries.geometry().bounds()
 
 if reducer == 'median':
     ee_reducer = ee.Reducer.median()
@@ -184,7 +185,7 @@ vegetation_indices_20m = masked_final_imagery.map(add_vis_20m)
 meters = 10 
 def zonalStats(image):
     date = image.get("Date")
-    toReturn = image.reduceRegions(reducer=ee_reducer, collection=plot_boundaries, scale=meters)
+    toReturn = image.reduceRegions(reducer=ee_reducer, collection=plot_boundaries, scale=meters, tileScale=4)
     return toReturn.set('Date', date)
 
 zs_10m = vegetation_indices_10m.map(zonalStats)

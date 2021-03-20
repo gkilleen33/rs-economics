@@ -8,8 +8,6 @@ ee.Initialize()
 # ENTER USER INPUTS HERE  
 ###############################################################
 plot_boundaries = ee.FeatureCollection() # Upload plot boundary data (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-aoi = ee.FeatureCollection() # Upload AOI polygon (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-# The AOI can contain multiple polygons, but should be relatively simple. A bounding box or convex hull around all plot boundaries is appropriate
 
 # Export information (to Google Drive)
 output_folder = 'EXAMPLE_FOLDER'  # Folder name to save outputs in Google drive. The folder should be created before running the script.
@@ -18,6 +16,9 @@ output_file = 'EXAMPLE_FILE_NAME' # Output file name
 ##############################################################
 # END USER INPUTS 
 ##############################################################
+
+#Construct AOI
+aoi = plot_boundaries.geometry().bounds()
 
 # Import elevation data 
 elevation = ee.Image('USGS/SRTMGL1_003').select('elevation').clip(aoi)
@@ -28,8 +29,20 @@ srtm_scale = elevation.projection().nominalScale().getInfo()
 # Calculate slope and aspect 
 terrain = ee.Terrain.products(elevation)
 
-# Caclulate zonal stats 
-zonal_stats = terrain.reduceRegions(reducer=ee.Reducer.mean(), collection=plot_boundaries, scale=srtm_scale)
+# If the scale of the smallest item in 'plot_boundaries' is less than the native resolution of the GPM data, then set the variable scale to the min scale of polygons, otherwise set it to the native resolution
+def addArea(feature):
+    return feature.set({'area': feature.geometry().area()})  
+polygons_with_area = plot_boundaries.map(addArea)
+
+min_polygon_area = polygons_with_area.reduceColumns(reducer=ee.Reducer.min(), selectors=['area']).getInfo()['min']
+
+if min_polygon_area < (gpm_scale)**2:
+    scale = max(10, math.sqrt(min_polygon_area)) # In case there are any polygons with very small area 
+else: 
+    scale = gpm_scale
+
+# Calculate zonal stats 
+zonal_stats = terrain.reduceRegions(reducer=ee.Reducer.mean(), collection=plot_boundaries, scale=scale, tileScale=4)
 
 # Remove geometry 
 def removeGeometry(feature):

@@ -8,8 +8,6 @@ ee.Initialize()
 # ENTER USER INPUTS HERE  
 ###############################################################
 plot_boundaries = ee.FeatureCollection() # Upload plot boundary data (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-aoi = ee.FeatureCollection() # Upload AOI polygon (e.g. using the Google Earth Engine console) and insert the asset ID here, in single or double quotes
-# The AOI can contain multiple polygons, but should be relatively simple. A bounding box or convex hull around all plot boundaries is appropriate
 
 # Start and end dates for image search (YYYY-MM-DD)
 begin = ee.Date() # E.g. '2019-08-01'
@@ -22,6 +20,9 @@ output_file = 'EXAMPLE_FILE_NAME' # Output file name
 ##############################################################
 # END USER INPUTS 
 ##############################################################
+
+#Construct AOI
+aoi = plot_boundaries.geometry().bounds()
 
 # Import GPM rainfall data and SRTM elevation data 
 gpm = ee.ImageCollection('NASA/GPM_L3/IMERG_V06').filter(ee.Filter.date(begin, end))\
@@ -52,12 +53,24 @@ def averageDailyRainfall(date, newlist):
 
 rain_by_day = ee.ImageCollection(ee.List(list_of_days.iterate(averageDailyRainfall, ee.List([]))))
 
+# If the scale of the smallest item in 'plot_boundaries' is less than the native resolution of the GPM data, then set the variable scale to the min scale of polygons, otherwise set it to the native resolution
+def addArea(feature):
+    return feature.set({'area': feature.geometry().area()})  
+polygons_with_area = plot_boundaries.map(addArea)
+
+min_polygon_area = polygons_with_area.reduceColumns(reducer=ee.Reducer.min(), selectors=['area']).getInfo()['min']
+
+if min_polygon_area < (gpm_scale)**2:
+    scale = max(10, math.sqrt(min_polygon_area)) # In case there are any polygons with very small area 
+else: 
+    scale = gpm_scale
+
 # Calculate rainfall for each plot and day
 # Note: for GPM we have to specify a scale below the native resolution because pixel sizes are much larger than plot size
 # Nearest neighbor resampling (the default) is used, so there is no transformation to the data
 def zonalStats(image):
     date = image.get("Date")
-    toReturn = image.reduceRegions(reducer=ee.Reducer.mean(), collection=plot_boundaries, scale=20)
+    toReturn = image.reduceRegions(reducer=ee.Reducer.mean(), collection=plot_boundaries, scale=scale, tileScale=4)
     return toReturn.set('Date', date)
 
 zonal_stats = rain_by_day.map(zonalStats)
