@@ -5,7 +5,11 @@
 
 This repository contains open source scripts for utilizing remote sensing data in economics. The aim of this project is to reduce barriers to generating remote sensing and GIS data so that academics can take advantage of these data sources without investing time to learn in detail about the methods, figure out how to code solutions, or invest in specialized resources. 
 
-All of the scripts in this repository are designed to run with minimal coding experience. They include step-by-step instructions in the `README.md` files that explain how to install any required software and generate results. Whenever possible, cloud computing platforms are used to mimizie software installation and hardware requirements. We take particular advantage of the Google Earth Engine which is free to academics and employees of non-profit organizations. 
+All of the scripts in this repository are designed to run with minimal coding experience. They include step-by-step instructions in the `README.md` files that explain how to install any required software and generate results. Whenever possible, cloud computing platforms are used to minimize software installation and hardware requirements. We take particular advantage of the Google Earth Engine which is free to academics and employees of non-profit organizations. 
+
+## Vector data structure for most Earth Engine scripts 
+
+Most scripts that use the Google Earth Engine produce a panel data set in long form. As a result, it is important that the vector data (e.g. shapefile) that you upload to the Google Earth Engine contains a unique identifier for each polygon. This should be added as an attribute to the shapefile or other vector data format. 
 
 ## Contributing 
 

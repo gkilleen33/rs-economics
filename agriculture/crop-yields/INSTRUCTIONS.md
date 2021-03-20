@@ -22,33 +22,33 @@ The VIs can be translated into yield predictions using several different methods
 
 1. Register for the Google Earth Engine, install Anaconda and Python 3, and authenticate the Google Earth Engine package following the instructions in the Setup section. 
 
-2. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
+- Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
-3. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `sentinel2-vis.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+__Make sure that the plot boundary data has a unique identifier in the attribute table.__ The scripts each output a csv containing panel data in long format. So a unique id is necessary to determine which polygon a data point was recorded in.
 
-4. Specify the import path to the AOI asset in the `aoi` variable in `sentinel2-vis.py`.
+- Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `sentinel2-vis.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
 
-5. Enter the begin and end date parameters via the `begin` and `end` variables in `sentinel2-vis.py`. These specify the earliest and latest search dates for Sentinel-2 images. All images in this range meeting the cloud parameter specified later will be used. 
+- Enter the begin and end date parameters via the `begin` and `end` variables in `sentinel2-vis.py`. These specify the earliest and latest search dates for Sentinel-2 images. All images in this range meeting the cloud parameter specified later will be used. 
 
-6. Specify the maximum average cloud cover (as a percentage) for each satellite tile in the `sentinel2-vis.py` using the variable `max_cloud_cover`. A tile is a Sentinel-2 image with an area of 100km x 100km. Your plots will often include multiple tiles. This variable specifies the maximum percentage cloud cover that each tile can include. Cloud cover can reduce the quality of results even if a cloud is not over a plot, e.g. due to shadows, so this value should be kept small, e.g. 5-20. The value should not be set at 0 because all tiles typically include at least some cloud cover, and cloudy pixels are masked out of calculations. 
+- Specify the maximum average cloud cover (as a percentage) for each satellite tile in the `sentinel2-vis.py` using the variable `max_cloud_cover`. A tile is a Sentinel-2 image with an area of 100km x 100km. Your plots will often include multiple tiles. This variable specifies the maximum percentage cloud cover that each tile can include. Cloud cover can reduce the quality of results even if a cloud is not over a plot, e.g. due to shadows, so this value should be kept small, e.g. 5-20. The value should not be set at 0 because all tiles typically include at least some cloud cover, and cloudy pixels are masked out of calculations. 
 
-7. Specify the minimum AOI overlap between the satellite tiles and your AOI polygon using the variable `min_aoi_coverage`. This is a rough approximation of the coverage of your plots since plots are likely not uniformly distributed in your AOI and masking of cloudy pixels may reduce coverage. For each date, the code calculates the union of the footprints of each of the low-cloud tiles kept after the previous step, then examines what percent of the AOI this polygon covers. 
+- Specify the minimum AOI overlap between the satellite tiles and your AOI polygon using the variable `min_aoi_coverage`. This is a rough approximation of the coverage of your plots since plots are likely not uniformly distributed in your AOI and masking of cloudy pixels may reduce coverage. For each date, the code calculates the union of the footprints of each of the low-cloud tiles kept after the previous step, then examines what percent of the AOI this polygon covers. 
 
-8. Select a reduction method and enter it as a string in the variable `reducer` in `sentinel2-vis.py`. This variable defines how the set of VI pixels contained within the boundaries of a plot for each date will be condensed into a single statistic. Common options are `mean` which averages the pixel values and `median` which takes the median. The other options are `min`, `max`, `mode`, and `sd` (standard deviation).
+- Select a reduction method and enter it as a string in the variable `reducer` in `sentinel2-vis.py`. This variable defines how the set of VI pixels contained within the boundaries of a plot for each date will be condensed into a single statistic. Common options are `mean` which averages the pixel values and `median` which takes the median. The other options are `min`, `max`, `mode`, and `sd` (standard deviation).
 
-9. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+- Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
 
-10. Insert the folder name from step 9 in the variable `output_folder`. 
+- Insert the folder name from step 9 in the variable `output_folder`. 
 
-11. Insert an output file name in the variable `output_file`. Do not include an extension. 
+- Insert an output file name in the variable `output_file`. Do not include an extension. 
 
-12. Open a command line terminal and set your current directory to the directory containing `sentinel2-vis.py`.
+- Open a command line terminal and set your current directory to the directory containing `sentinel2-vis.py`.
 
-13. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+- Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
 
-14. Enter `python sentinel2-vis.py`. 
+- Enter `python sentinel2-vis.py`. 
 
-15. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
+- The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
 # plot_rainfall.py 
 
@@ -70,25 +70,23 @@ GPM data includes estimates of rainfall every half hour, in mm/hr units. All 48 
 
 1. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
-2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_rainfall.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+- Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_rainfall.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
 
-3. Specify the import path to the AOI asset in the `aoi` variable in `plot_rainfall.py`.
+- Enter the begin and end date parameters via the `begin` and `end` variables in `plot_rainfall.py`. These specify the earliest date for which rainfall data will be pulled and the end date. The end date will be excluded. 
 
-4. Enter the begin and end date parameters via the `begin` and `end` variables in `plot_rainfall.py`. These specify the earliest date for which rainfall data will be pulled and the end date. The end date will be excluded. 
+- Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
 
-5. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+- Insert the folder name from step 5 in the variable `output_folder`. 
 
-6. Insert the folder name from step 5 in the variable `output_folder`. 
+- Insert an output file name in the variable `output_file`. Do not include an extension. 
 
-7. Insert an output file name in the variable `output_file`. Do not include an extension. 
+- Open a command line terminal and set your current directory to the directory containing `plot_rainfall.py`.
 
-8. Open a command line terminal and set your current directory to the directory containing `plot_rainfall.py`.
+- Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
 
-9. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+- Enter `python plot_rainfall.py`. 
 
-10. Enter `python plot_rainfall.py`. 
-
-11. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
+- The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
 # plot_topography.py 
 
@@ -108,23 +106,21 @@ The code uses Shuttle Rader Topography Mission (SRTM) elevation data with a reso
 
 1. Import plot boundary data (e.g. a shapefile or geojson) and AOI data (e.g. one or more bounding boxes around all plots in the sample) to the Google Earth Engine. The easiest way to do this is using the console at [https://code.earthengine.google.com/](https://code.earthengine.google.com/). Instructions are available at [https://developers.google.com/earth-engine/importing](https://developers.google.com/earth-engine/importing). 
 
-2. Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_topography.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
+- Specify the import path to the plot boundary Google Earth Engine asset in the `plot_boundaries` variable in `plot_topography.py`. Instructions for finding the asset ID are available at [https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script](https://developers.google.com/earth-engine/asset_manager#importing-assets-to-your-script).
 
-3. Specify the import path to the AOI asset in the `aoi` variable in `plot_topography.py`.
+- Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
 
-4. Create a folder on your Google Drive account to store the output if an appropriate folder does not already exist. 
+- Insert the folder name from step 4 in the variable `output_folder`. 
 
-5. Insert the folder name from step 4 in the variable `output_folder`. 
+- Insert an output file name in the variable `output_file`. Do not include an extension. 
 
-6. Insert an output file name in the variable `output_file`. Do not include an extension. 
+- Open a command line terminal and set your current directory to the directory containing `plot_topography.py`.
 
-7. Open a command line terminal and set your current directory to the directory containing `plot_topography.py`.
+- Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
 
-8. Activate the conda environment that includes your Google Earth Engine Python installation. If you followed the setup instructions exactly, this can be accomplished by typing `conda activate ee`. 
+- Enter `python plot_topography.py` in the command line. 
 
-9. Enter `python plot_topography.py` in the command line. 
-
-10. The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
+- The CSV output should be automatically exported to the folder that you specified. This can be downloaded and used in analysis. 
 
 # References 
 
