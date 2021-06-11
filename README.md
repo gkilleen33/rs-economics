@@ -10,12 +10,12 @@ All of the scripts in this repository are designed to run with minimal coding ex
 
 As a rough guide, an academic seeking to measure yield for plot-level data would have to:
 
-a) Measure crop yields using GPS devices (or phones), place boundaries in an ESRI shapefile, geojson or other vector format 
-b) Upload the plot boundary data to the Google Earth Engine
-c) Install Python and the Google Earth Engine package, or use a Google colab notebook online
-d) Create a folder in your Google Drive to store the outputs
-e) Run agriculture/sentinel2-vis.py
-f) Download a .csv file which provides plot identifiers, NDVI data, etc., for use in analysis from Google Drive
+1. Measure crop yields using GPS devices (or phones), place boundaries in an ESRI shapefile, geojson or other vector format 
+2. Upload the plot boundary data to the Google Earth Engine
+3. Install Python and the Google Earth Engine package, or use a Google colab notebook online
+4. Create a folder in your Google Drive to store the outputs
+5. Run agriculture/sentinel2-vis.py
+6. Download a .csv file which provides plot identifiers, NDVI data, etc., for use in analysis from Google Drive
 
 The repository also includes scripts for other tasks such as calculating measures of topography for each plot, rainfall, air pollution, or nighttime luminosity. These are unrelated to crop yield estimation.
 
