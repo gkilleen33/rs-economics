@@ -2,6 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+For replication materials for Cole et al. 2025, "Using satellites and phones to evaluate and promote agricultural technology adoption: Evidence from smallholder farms in India" visit this repository: https://github.com/gkilleen33/atai-replication
+
+The current repository has tools for applying similar methods to other projects.
+
 This repository contains open source scripts for utilizing remote sensing data in economics, with a detailed application for measuring crop yields. This repository is designed to complement an academic paper, "Using Satellites and Phones to Evaluate and Promote Agricultural Technology Adoption: Evidence from Smallholder Farms in India," by Shawn Cole, Tomoko Harigaya, Grady Killeen, and Aparna Krishna. Replication data and code for the paper are available at <https://github.com/precision-agriculture-for-development/soil-fertility-data>. 
 
 The aim of this project is to reduce barriers to generating remote sensing and GIS data so that academics can take advantage of these data sources without investing time to learn in detail about the methods, figure out how to code solutions, or invest in specialized resources.
